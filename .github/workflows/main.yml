@@ -1,0 +1,29 @@
+name: 微博哨兵定时任务
+
+on:
+  schedule:
+    # 这里的语法叫 Cron
+    # "0 * * * *" 意思是：每小时的第 0 分钟运行一次
+    - cron: '0 * * * *'
+  # 允许你手动点击按钮触发测试 (关键！)
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v2
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: 安装依赖
+        run: |
+          pip install -r requirements.txt
+
+      - name: 运行哨兵脚本
+        run: python main.py
